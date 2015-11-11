@@ -21,7 +21,7 @@
   ```
   The `dvpViewPager` attribute is neccessary. Without it, the ViewPager can't be found.
   
-  3. Set it in the codes. Use `DotViewPager.setAdapter()` instead of the ViewPager's function. 
+  3. Set it in the codes. Use `DotViewPager.setAdapter()` instead of the ViewPager's method. 
   <br>Example:
   ```
   dot = (DotViewPager) findViewById(R.id.dot);
