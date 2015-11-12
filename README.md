@@ -2,7 +2,7 @@
 
   This purpose of this project is adding some circle indicator to a ViewPager.
   <br>Example:<br>
-  ![](http://h.hiphotos.bdimg.com/album/s%3D740%3Bq%3D90/sign=ef8ba7e0329b033b2888fede25f547ee/9345d688d43f87949f63f2cad41b0ef41ad53ab1.jpg)
+  ![](https://github.com/daydreary/DotViewPager/raw/master/img2.png)
   
   
 ## How to use
