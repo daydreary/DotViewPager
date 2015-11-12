@@ -1,6 +1,6 @@
 # DotViewPager
 
-  This purpose of this project is adding some circle indicator to a ViewPager.
+  This purpose of this project is adding some circle indicators to a ViewPager.
   <br>Example:<br>
   ![](https://github.com/daydreary/DotViewPager/raw/master/img2.png)
   
@@ -44,7 +44,7 @@
   5.`dotViewPager.setDelay(2000)` can change the frequency of scrolling.<br>
   
   <br>
-  If you want to change the circle's style, you can simply modify the `ic_dot_normal.png` and the `ic_dot_selected` in /res/drawable-hdpi<br>
+  If you want to change the circle's style, you can simply modify the `ic_dot_normal.png` and the `ic_dot_selected.png` in /res/drawable-hdpi<br>
   <br>
   The DotViewPager is a subclass of FrameLayout actually instead of a ViewPager.<br>
   It provides some methods to manage the ViewPager<br>
