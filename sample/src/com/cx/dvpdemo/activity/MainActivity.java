@@ -30,7 +30,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		init();
+		
 		dot.setAdapter(adapter);
+		
 		dot.setGravity(DotViewPager.BOTTOM_RIGHT);
 		dot.setMarginDip(30, 30, 30, 30);
 	}
@@ -39,7 +41,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		dot = (DotViewPager) findViewById(R.id.dot);
 		button = (Button) findViewById(R.id.btn);
 		button.setOnClickListener(this);
-		button.setText("use it in fragment");
+		button.setText("use it in fragment (automatic cycling)");
+		
 		list = new ArrayList<View>();
 		for (int i = 0; i < 4; i++) {
 			ImageView img = new ImageView(this);

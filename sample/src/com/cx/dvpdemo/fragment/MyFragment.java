@@ -30,7 +30,10 @@ public class MyFragment extends Fragment implements OnClickListener{
 		View view = inflater.inflate(R.layout.fragment, container, false);
 		dot = (DotViewPager) view.findViewById(R.id.dot);
 		init();
-		dot.setAdapter(adapter);
+		
+		//make sure your list is available for cycle(added header and footer)
+		dot.setAdapterWithLoop(adapter);
+		
 		dot.setGravity(DotViewPager.BOTTOM_CENTER);
 		dot.setMarginDip(0, 0, 0, 20);
 		dot.setAutoScroll(true, 500, null);
@@ -40,7 +43,17 @@ public class MyFragment extends Fragment implements OnClickListener{
 	}
 	
 	private void init() {
+		//start to initialize the list
 		list = new ArrayList<View>();
+		
+		//add header to list. it is a clone of last view
+		ImageView img0 = new ImageView(getActivity());
+		img0.setTag(3);
+		img0.setOnClickListener(this);
+		img0.setImageResource(R.drawable.image4);
+		list.add(img0);
+		
+		//add the images
 		for (int i = 0; i < 4; i++) {
 			ImageView img = new ImageView(getActivity());
 			img.setTag(i);
@@ -57,6 +70,13 @@ public class MyFragment extends Fragment implements OnClickListener{
 			}
 			list.add(img);
 		}
+		
+		//add footer to list. it is a clone of first view
+		ImageView imgl = new ImageView(getActivity());
+		imgl.setTag(0);
+		imgl.setOnClickListener(this);
+		imgl.setImageResource(R.drawable.image1);
+		list.add(imgl);
 		adapter = new MyPagerAdapter(list);
 	}
 	
