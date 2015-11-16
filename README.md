@@ -31,6 +31,52 @@
   dot.setAdapter(yourPagerAdapter);
   ```
   
+  4. Make it automatic cycling
+  <br>Setting like this:<br>
+  ```
+  private void init() {
+		//start to initialize the list
+		list = new ArrayList<View>();
+		
+		//add header to list. it is a clone of last view
+		ImageView img0 = new ImageView(getActivity());
+		img0.setTag(3);
+		img0.setOnClickListener(this);
+		img0.setImageResource(R.drawable.image4);
+		list.add(img0);
+		
+		//add the images
+		for (int i = 0; i < 4; i++) {
+			ImageView img = new ImageView(getActivity());
+			img.setTag(i);
+			img.setOnClickListener(this);
+			switch (i) {
+			case 0:
+				img.setImageResource(R.drawable.image1);break;
+			case 1:
+				img.setImageResource(R.drawable.image2);break;
+			case 2:
+				img.setImageResource(R.drawable.image3);break;
+			case 3:
+				img.setImageResource(R.drawable.image4);break;
+			}
+			list.add(img);
+		}
+		
+		//add footer to list. it is a clone of first view
+		ImageView imgl = new ImageView(getActivity());
+		imgl.setTag(0);
+		imgl.setOnClickListener(this);
+		imgl.setImageResource(R.drawable.image1);
+		list.add(imgl);
+		adapter = new MyPagerAdapter(list);
+		
+		dot.setAdapterWithLoop(adapter);
+		//remember to call setAutoScroll(false, 0, null) in onDestroy()
+		dot.setAutoScroll(true, 500, null);
+	}
+	```
+  
 ## More functions
   Use the `dotViewPager.setOnTouchListener()` and `dotViewPager.setOnPageChangeListener()` if you want to add listener to the ViewPager.<br>
 
