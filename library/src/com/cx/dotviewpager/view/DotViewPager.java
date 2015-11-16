@@ -48,6 +48,7 @@ public class DotViewPager extends FrameLayout {
 	private Handler handler;
 	private boolean autoScroll;
 	private int delay = 3000;
+	private boolean loop;
 	
 	public DotViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs, 0);
@@ -82,7 +83,9 @@ public class DotViewPager extends FrameLayout {
 				pager.setOnPageChangeListener(new OnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
-						setPositionChecked(position);
+						if (!loop) {
+							setPositionChecked(pager.getCurrentItem());
+						}
 						if (pageListener != null) {
 							pageListener.onPageScrollStateChanged(position);
 						}
@@ -94,9 +97,24 @@ public class DotViewPager extends FrameLayout {
 						}
 					}
 					@Override
-					public void onPageScrollStateChanged(int arg0) {
+					public void onPageScrollStateChanged(int state) {
+						if (state == 0) {
+							if (loop) {
+								int size = adapter.getCount();
+								int curr = pager.getCurrentItem();
+								if (curr == size - 1) {
+									pager.setCurrentItem(1, false);
+									setPositionChecked(0);
+								} else if (curr == 0) {
+									pager.setCurrentItem(size - 2, false);
+									setPositionChecked(radioGroup.getChildCount() - 1);
+								} else {
+									setPositionChecked(pager.getCurrentItem() - 1);
+								}
+							}
+						}
 						if (pageListener != null) {
-							pageListener.onPageScrollStateChanged(arg0);
+							pageListener.onPageScrollStateChanged(state);
 						}
 					}
 				});
@@ -134,6 +152,18 @@ public class DotViewPager extends FrameLayout {
 			this.adapter = adapter;
 			pager.setAdapter(adapter);
 			setRadioGroup(adapter.getCount());
+		}
+	}
+	
+	public void setAdapterWithLoop(PagerAdapter adapter) {
+		setLoop(adapter);
+		setAdapter(adapter);
+	}
+	
+	private void setLoop(PagerAdapter adapter) {
+		int size = adapter.getCount();
+		if (size >= 4 && pager != null) {
+			this.loop = true;
 		}
 	}
 	
@@ -205,6 +235,9 @@ public class DotViewPager extends FrameLayout {
 		if (count <= 0) {
 			return;
 		}
+		if (loop) {
+			count -= 2;
+		}
 		if (radioGroup == null) {
 			radioGroup = new RadioGroup(context);
 			LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -225,7 +258,12 @@ public class DotViewPager extends FrameLayout {
 				radioGroup.addView(initRadioButton(i));
 			}
 		}
-		setPositionChecked(pager.getCurrentItem());
+		if (!loop) {
+			setPositionChecked(0);
+		} else {
+			pager.setCurrentItem(1);
+			setPositionChecked(0);
+		}
 	}
 	
 	@SuppressLint("InflateParams") 
@@ -253,6 +291,9 @@ public class DotViewPager extends FrameLayout {
 	}
 
 	public void setAutoScroll(boolean autoScroll, int duration, Interpolator i) {
+		if (adapter != null && adapter.getCount() <= 1) {
+			return;
+		}
 		this.autoScroll = autoScroll;
 		if (autoScroll) {
 			initHandler();
@@ -303,7 +344,7 @@ public class DotViewPager extends FrameLayout {
 					if (autoScroll && pager != null) {
 						int curr = pager.getCurrentItem();
 						int next = curr + 1;
-						if (next > pager.getChildCount()) {
+						if (next >= adapter.getCount()) {
 							next = 0;
 						}
 						pager.setCurrentItem(next, true);
